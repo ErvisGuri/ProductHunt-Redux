@@ -1,4 +1,6 @@
 import React from "react";
+
+import "./ProductReview.css";
 import ReviewsList from "../ReviewsList/ReviewsList";
 import ReviewModal from "../ReviewModal/ReviewModal";
 import { useSelector } from "react-redux";
@@ -18,7 +20,7 @@ const ProductReview = () => {
 
   return (
     <div className="productreview_contariner">
-      <div className="product_container">
+      <div className="product1_container">
         <article key={state.id} className="article">
           <div className="img_title">
             <picture>
@@ -43,9 +45,19 @@ const ProductReview = () => {
           </div>
         </article>
       </div>
-      <div className="reviewModal" style={{ marginBottom: "25px" }}>
-        <div>Clients Reviews</div>
-        <ReviewModal />
+      <div className="reviewModal">
+        <div
+          style={{
+            marginLeft: "20px",
+            fontSize: "25px",
+            marginBottom: "1px",
+          }}
+        >
+          <u>Products Reviews</u>
+        </div>
+        <div style={{ marginBottom: "25px" }}>
+          <ReviewModal />
+        </div>
       </div>
       <div className="reviewList_container">
         {Review?.map((reviewing, i) => (
