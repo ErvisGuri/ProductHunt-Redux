@@ -1,0 +1,55 @@
+.navBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+    background-color: rgba(39, 43, 48, 0.979);
+    color: rgb(223, 215, 215);
+    position: static;
+    padding: 3px 0 0 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    align-items: baseline;
+}
+  
+.navList{
+    display: flex;
+    gap: 30px;
+    margin-left: 700px;
+    margin-top: 20px;
+    padding: 0;
+    list-style-type: none;
+}
+
+.logo {
+    margin-left: 150px;
+    margin-top: 25px;
+    font-size: 17px;
+}
+
+
+li {
+    margin-left: 15px;
+    padding: 10px;
+    font-size: 15px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.search {
+    margin-right: 25px;
+    margin-top: 30px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.profile {
+    display: flex;
+    margin-right: 35px;
+    font-size: 15px;
+    margin-left: 4px;
+    color: rgb(223, 215, 215);
+}
+
+.profile:hover {
+    cursor: pointer;
+}

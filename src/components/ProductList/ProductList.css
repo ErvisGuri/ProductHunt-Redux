@@ -1,0 +1,31 @@
+.productList_container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 50px;
+    justify-content: space-evenly;
+    align-content: stretch;
+    align-items: stretch;
+    margin-bottom: 30px;
+    margin-top: 10px;
+    overflow:auto;
+}
+
+.addProduct_container {
+    display: flex;
+    gap: 660px;
+    margin-top: 10px;
+    margin-left: 810px;
+    position: sticky;
+    top: 20px;
+}
+
+.sort{
+    display: flex;
+    flex-direction: row;
+    margin-left: 220px;
+}
+
+.sort:hover {
+    cursor: pointer;
+}
