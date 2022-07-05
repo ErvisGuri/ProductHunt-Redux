@@ -17,15 +17,18 @@
     margin-top: 10px;
     margin-left: 810px;
     position: sticky;
-    top: 20px;
+    top: 30px;
 }
 
 .sort{
     display: flex;
     flex-direction: row;
-    margin-left: 220px;
+    margin-left: 200px;
+    transition-timing-function: ease-in;
+    transition: 0.5s;
 }
 
 .sort:hover {
     cursor: pointer;
 }
+

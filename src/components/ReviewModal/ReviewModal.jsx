@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
-import axios from "axios";
+import React from "react";
+
+import "./ReviewModal.css";
 import { useState } from "react";
 import { Button, Drawer, Space } from "antd";
-import { Input, Select } from "antd";
+import { Input } from "antd";
 import { DatePicker } from "antd";
 import { useDispatch } from "react-redux";
 import { addReviews } from "../../features/reviewSlice";
-
+import CountryDropdown from "country-dropdown-with-flags-for-react";
 const { TextArea } = Input;
 
 const ReviewModal = ({ rew }) => {
@@ -14,17 +15,10 @@ const ReviewModal = ({ rew }) => {
   const [size, setSize] = useState();
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
-  const [country, setCountry] = useState(null);
+  const [country, setCountry] = useState("");
   const [descrip, setDescrip] = useState("");
-  // const [selectedCountry, setSelectedCountry] = useState(0);
-
-  // const BASE_URL = "https://restcountries.com/v3.1/all";
 
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   axios.get(BASE_URL).then((res) => console.log(setCountry(res)));
-  // }, [selectedCountry]);
 
   const showLargeDrawer = () => {
     setSize("large");
@@ -44,8 +38,8 @@ const ReviewModal = ({ rew }) => {
     setDate(e.format(dateFormat));
   };
 
-  const countryHandler = () => {
-    setCountry(country);
+  const countryHandler = (e) => {
+    setCountry(e.target.value);
   };
 
   const descripHandler = (e) => {
@@ -94,20 +88,26 @@ const ReviewModal = ({ rew }) => {
         visible={visible}
         extra={
           <Space>
-            <Button type="primary" onClick={addReviewPost}>
+            <Button
+              type="primary"
+              onClick={addReviewPost}
+              style={{ backgroundColor: "rgba(39, 43, 48, 0.979)" }}
+            >
               Post
             </Button>
           </Space>
         }
       >
         <div
-          value={name}
-          onChange={nameHandler}
           className="reviewName"
           style={{ marginLeft: "150px", marginBottom: "3px" }}
         >
           Name:
-          <Input style={{ width: "300px", marginLeft: "23px" }} />
+          <Input
+            value={name}
+            onChange={nameHandler}
+            style={{ width: "300px", marginLeft: "23px" }}
+          />
         </div>
         <div
           className="date"
@@ -120,16 +120,15 @@ const ReviewModal = ({ rew }) => {
             onChange={dateHandler}
           />
         </div>
-        <div
-          value={country}
-          onChange={countryHandler}
-          className="country"
-          style={{ marginLeft: "150px", marginBottom: "3px" }}
-        >
-          Country:
-          <Select style={{ width: "300px", marginLeft: "11px" }}>
-            {country}
-          </Select>
+        <div className="country" style={{ marginBottom: "3px" }}>
+          <div style={{ marginLeft: "24px" }}>Country:</div>
+          <CountryDropdown
+            value={country}
+            handleChange={countryHandler}
+            className="YOUR_CSS_CLASS"
+            preferredCountries={["gb", "us"]}
+            style={{}}
+          ></CountryDropdown>
         </div>
         <div
           value={descrip}

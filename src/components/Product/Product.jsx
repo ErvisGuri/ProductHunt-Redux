@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../features/cartSlice";
 
 import "./Product.css";
 import { ShoppingCartOutlined } from "@ant-design/icons";
@@ -7,21 +9,23 @@ import { Button } from "antd";
 
 const Product = ({ item }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const { img, id, title, desc, price, currency } = item;
 
   const navigateToProduct = (item) => {
     navigate("/products", { state: item });
   };
-  console.log(item);
+
+  const handleAddToCart = (item) => {
+    dispatch(addToCart(item));
+  };
+
   return (
     <>
       <div className="product_container">
-        <article
-          key={id}
-          onClick={() => navigateToProduct(item)}
-          className="article"
-        >
-          <div className="img_title">
+        <article key={id} className="article">
+          <div onClick={() => navigateToProduct(item)} className="img_title">
             <picture>
               <img
                 className="img"
@@ -35,7 +39,7 @@ const Product = ({ item }) => {
           </div>
           <div className="productDsc">{desc}</div>
           <div className="price-product">
-            <Button>
+            <Button onClick={() => handleAddToCart(item)}>
               Add to Card
               <ShoppingCartOutlined style={{ cursor: "pointer" }} />
             </Button>

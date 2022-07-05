@@ -13,7 +13,6 @@ const ProductReview = () => {
   const Review = useSelector(selectReview);
   const { state } = useLocation();
   const navigate = useNavigate();
-  console.log(state);
   const navigateToProduct = () => {
     navigate("/products");
   };
