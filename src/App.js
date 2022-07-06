@@ -11,6 +11,7 @@ import HomePage from './components/HomePage/homePage.jsx'
 import AboutUs from './components/AboutUs/AboutUs';
 import Contact from './components/Contact/Contact';
 import ProductReview from './components/ProductReview/ProductReview';
+import SignInSignUp from './components/SignInSignUp/SignInSignUp';
 import Profile from './components/Profile/Profile';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path='/about' element={<AboutUs />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/cart' element={<Cart />} />
+        <Route path='/SignInSignUp' element={<SignInSignUp />} />
         <Route path='/profile' element={<Profile />} />
       </Routes>
     </div>

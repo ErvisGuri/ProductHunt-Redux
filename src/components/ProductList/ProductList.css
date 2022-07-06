@@ -13,11 +13,12 @@
 
 .addProduct_container {
     display: flex;
-    gap: 660px;
+    text-align: center;
+    gap: 50px;
     margin-top: 10px;
     margin-left: 810px;
     position: sticky;
-    top: 30px;
+    top: 90.5px;
 }
 
 .sort{
@@ -25,10 +26,9 @@
     flex-direction: row;
     margin-left: 200px;
     transition-timing-function: ease-in;
-    transition: 0.5s;
+    transition: 0.2s;
 }
 
 .sort:hover {
     cursor: pointer;
 }
-

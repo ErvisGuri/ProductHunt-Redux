@@ -21,10 +21,25 @@ const productSlice = createSlice({
         },
       ];
     },
+    sortProducts: (state, action) => {
+      const direction = action.payload;
+
+      if (direction === "ASC") {
+        state.productLists = [...state.productLists].sort(
+          (a, b) => parseFloat(a.price) - parseFloat(b.price)
+        );
+      } else if (direction === "DESC") {
+        state.productLists = [...state.productLists].sort(
+          (a, b) => parseFloat(b.price) - parseFloat(a.price)
+        );
+      } else {
+        state.productLists = ProductStore;
+      }
+    },
   },
 });
 
-export const { addProduct } = productSlice.actions;
+export const { addProduct, sortProducts } = productSlice.actions;
 
 export default productSlice.reducer;
 

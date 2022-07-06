@@ -3,7 +3,6 @@ import React from "react";
 import "./ReviewsList.css";
 
 const ReviewsList = ({ review }) => {
-  console.log(review);
   return (
     <div className="review_container">
       <div className="nameflag_container">

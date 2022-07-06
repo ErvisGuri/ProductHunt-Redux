@@ -5,14 +5,26 @@
     height: 100%;
     background-color: rgba(39, 43, 48, 0.979);
     color: rgb(223, 215, 215);
-    position: static;
     padding: 3px 0 0 0;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     align-items: baseline;
     position: sticky;
     top:0
 }
-  
+
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+    padding: 0.5px 3px !important;
+    border: none !important;
+}
+
+.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
+   right: -15px !important;
+}
+
+.css-bpeome-MuiSvgIcon-root-MuiSelect-icon {
+    right: -15px !important;
+}
+
 .navList{
     display: flex;
     gap: 30px;
@@ -38,24 +50,17 @@ li {
     cursor: pointer;
 }
 
-.search {
-    margin-left: 5px;
-    margin-top: 30px;
-    cursor: pointer;
-    font-size: 15px;
-}
-
 .navCart{
     display: flex;
     flex-direction: row;
     cursor: pointer;
+    margin-right: 10px;
 }
 
 .profile {
     display: flex;
-    margin-right: 35px;
+    margin-right: 60px;
     font-size: 15px;
-    margin-left: 4px;
     color: rgb(223, 215, 215);
 }
 

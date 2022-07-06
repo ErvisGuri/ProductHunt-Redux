@@ -33,6 +33,8 @@ const cartSlice = createSlice({
         });
       }
 
+      state.cartTotalQuantity = state.cartTotalQuantity + 1;
+
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
     removeFromCart(state, action) {

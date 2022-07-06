@@ -5,16 +5,30 @@ import "antd/dist/antd.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 //Importing Components
-import { DownOutlined } from "@ant-design/icons";
 import Product from "../Product/Product";
 import ProductModal from "../ProductModal/ProductModal";
-import { Provider, useSelector } from "react-redux";
-import { selectProduct } from "../../features/productsSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { selectProduct, sortProducts } from "../../features/productsSlice";
 import ProductStore from "../DataStore/ProductStore";
+
+//Material UI
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 const ProductList = () => {
   const Products = useSelector(selectProduct);
   const [prodDrog, updateProdDrog] = useState(ProductStore);
+  const [direction, setDirection] = useState("none");
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   function handleOnDragEnd(result) {
     if (!result.destination) return;
@@ -26,19 +40,27 @@ const ProductList = () => {
     updateProdDrog(items);
   }
 
-  let arrayPrice = [];
+  const dispatch = useDispatch();
 
-  Products?.forEach((prod) => {
-    arrayPrice?.push(prod.price);
-  });
+  function sortAsc() {
+    if (direction === "NONE") {
+      dispatch(sortProducts("ASC"));
+      setDirection("ASC");
+    } else {
+      dispatch(sortProducts("NONE"));
+      setDirection("NONE");
+    }
+  }
 
-  const sortAsc = arrayPrice.sort((a, b) => {
-    return a - b;
-  });
-
-  // const sortDesc = arrayPrice.sort((a, b) => {
-  //   return b - a;
-  // });
+  function sortDesc() {
+    if (direction === "NONE") {
+      dispatch(sortProducts("DESC"));
+      setDirection("DESC");
+    } else {
+      dispatch(sortProducts("NONE"));
+      setDirection("NONE");
+    }
+  }
 
   return (
     <div className="main_container">
@@ -46,8 +68,28 @@ const ProductList = () => {
         <div className="productModal">
           <ProductModal />
         </div>
-        <div className="sort" onClick={() => console.log(sortAsc)}>
-          <h3>Sort by: Price</h3>
+        <div className="sort">
+          <Button
+            id="basic-button"
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
+          >
+            Sort By: Featured
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem onClick={sortAsc}>Price: Low to High</MenuItem>
+            <MenuItem onClick={sortDesc}>Price: High to Low</MenuItem>
+          </Menu>
         </div>
       </div>
       <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -75,7 +117,7 @@ const ProductList = () => {
         </Droppable>
       </DragDropContext>
       {/*
-        <div className="productList_container"> 
+        <div className="productList_container">
         {Products?.map((item, i) => (
             <Product item={item} key={i} />
           ))} */}
