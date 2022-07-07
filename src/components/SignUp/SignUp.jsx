@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import React from "react";
 
 import "./SignUp.css";
+
+import { singInWithGoogle } from "../../firebase/firebase-config";
 import { Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
@@ -29,6 +30,7 @@ const SignUp = ({
         value={registerPassword}
         onChange={handleChangePassword}
         placeholder="password"
+        required={true}
         iconRender={(visible) =>
           visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
         }
@@ -38,6 +40,7 @@ const SignUp = ({
         value={registerConfirmPassword}
         onChange={handleChangeConfirmPassword}
         placeholder="password"
+        required={true}
         iconRender={(visible) =>
           visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
         }
@@ -46,7 +49,9 @@ const SignUp = ({
         Sign Up
       </button>
       <span>Sign up with google</span>
-      <button className="signUpBtn">SignUp with Google</button>
+      <button className="signUpBtn" onClick={singInWithGoogle}>
+        SignIn with Google
+      </button>
     </div>
   );
 };

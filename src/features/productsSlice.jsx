@@ -36,10 +36,18 @@ const productSlice = createSlice({
         state.productLists = ProductStore;
       }
     },
+    updateCurrency: (state, action) => {
+      const index = state.productLists.findIndex(
+        (prd) => prd.id === action.payload.id
+      );
+
+      state.productLists[index].currency = action.payload.currency;
+    },
   },
 });
 
-export const { addProduct, sortProducts } = productSlice.actions;
+export const { addProduct, sortProducts, updateCurrency } =
+  productSlice.actions;
 
 export default productSlice.reducer;
 

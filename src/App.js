@@ -13,22 +13,31 @@ import Contact from './components/Contact/Contact';
 import ProductReview from './components/ProductReview/ProductReview';
 import SignInSignUp from './components/SignInSignUp/SignInSignUp';
 import Profile from './components/Profile/Profile';
+import { useSelector } from 'react-redux';
+import { selectUser } from './features/userSlice';
 
 function App() {
+  const user = useSelector(selectUser)
   return (
     <div className="App">
-      <ToastContainer />
-      <NavBar />
-      <Routes>
-        <Route exact path='/' element={<HomePage />} />
-        <Route path='/products' element={<ProductReview />} />
-        <Route path='/about' element={<AboutUs />} />
-        <Route path='/contact' element={<Contact />} />
-        <Route path='/cart' element={<Cart />} />
-        <Route path='/SignInSignUp' element={<SignInSignUp />} />
-        <Route path='/profile' element={<Profile />} />
-      </Routes>
-    </div>
+      {user ? (
+        <>
+          <ToastContainer />
+          <NavBar />
+          <Routes>
+            <Route exact path='/' element={<SignInSignUp />} />
+            <Route exact path='/homepage' element={<HomePage />} />
+            <Route path='/products' element={<ProductReview />} />
+            <Route path='/about' element={<AboutUs />} />
+            <Route path='/contact' element={<Contact />} />
+            <Route path='/cart' element={<Cart />} />
+            <Route path='/profile' element={<Profile />} />
+          </Routes></>) : (<><SignInSignUp />
+          </>)
+
+      }
+
+    </div >
   );
 }
 

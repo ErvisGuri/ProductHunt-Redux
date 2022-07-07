@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import "./ProductList.css";
 import "antd/dist/antd.css";
@@ -21,6 +21,10 @@ const ProductList = () => {
   const [prodDrog, updateProdDrog] = useState(ProductStore);
   const [direction, setDirection] = useState("none");
   const [anchorEl, setAnchorEl] = useState(null);
+  const dragItem = useRef();
+  const dragOverItem = useRef();
+  const [list, setList] = useState([Products]);
+  const dispatch = useDispatch();
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -30,17 +34,23 @@ const ProductList = () => {
     setAnchorEl(null);
   };
 
-  function handleOnDragEnd(result) {
-    if (!result.destination) return;
+  const dragStart = (e, position) => {
+    dragItem.current = position;
+  };
 
-    const items = Array.from(Products);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
+  const dragEnter = (e, position) => {
+    dragOverItem.current = position;
+  };
 
-    updateProdDrog(items);
-  }
-
-  const dispatch = useDispatch();
+  const drop = (e) => {
+    const copyListItems = [...list];
+    const dragItemContent = copyListItems[dragItem.current];
+    copyListItems.splice(dragItem.current, 1);
+    copyListItems.splice(dragOverItem.current, 0, dragItemContent);
+    dragItem.current = null;
+    dragOverItem.current = null;
+    setList(copyListItems);
+  };
 
   function sortAsc() {
     if (direction === "NONE") {
@@ -61,6 +71,12 @@ const ProductList = () => {
       setDirection("NONE");
     }
   }
+
+  useEffect(() => {
+    if (!!Products) {
+      setList(Products);
+    }
+  }, [Products]);
 
   return (
     <div className="main_container">
@@ -92,35 +108,19 @@ const ProductList = () => {
           </Menu>
         </div>
       </div>
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="product">
-          {(provided) => (
-            <div
-              className="productList_container"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {Products?.map((item, { id }, index) => (
-                <Draggable key={id} draggableId={id} index={index}>
-                  {(provided) => (
-                    <Product
-                      item={item}
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    />
-                  )}
-                </Draggable>
-              ))}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-      {/*
-        <div className="productList_container">
-        {Products?.map((item, i) => (
-            <Product item={item} key={i} />
-          ))} */}
+      <div className="productList_container">
+        {list?.map((item, index) => (
+          <div
+            onDragStart={(e) => dragStart(e, index)}
+            onDragEnter={(e) => dragEnter(e, index)}
+            onDragEnd={drop}
+            draggable
+            key={index}
+          >
+            <Product item={item} key={index} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "./NavBar.css";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { updateCurrency } from "../../features/productsSlice";
+import { Axios } from "axios";
 
 //Antd
 import { ShoppingOutlined, UserOutlined } from "@ant-design/icons";
@@ -15,11 +18,38 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
+const BASE_URL = "https://api.exchangeratesapi.io/v1/latest";
+
 const NavBar = () => {
   const { cartTotalQuantity } = useSelector((state) => state.cart);
   const [anchorEl, setAnchorEl] = useState(null);
   const [currency, setCurrency] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const updateCurrencyf = () => {
+    dispatch(
+      updateCurrency({
+        currency: currency,
+      })
+    );
+    handleClose();
+  };
+
+  // useEffect(() => {
+  //   Axios.get(BASE_URL, {
+  //     headers: {
+  //       Authorization: `token `,
+  //     },
+  //   }).then(
+  //     (res) => {
+  //       const response = res.data;
+  //     },
+  //     (error) => {
+  //       const status = error.response.status;
+  //     }
+  //   );
+  // }, []);
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -37,6 +67,7 @@ const NavBar = () => {
   };
 
   const handleSignInOut = () => {
+    navigate("/");
     handleClose();
   };
 
@@ -46,7 +77,7 @@ const NavBar = () => {
   };
 
   const navigateToHomePage = () => {
-    navigate("/");
+    navigate("/homepage");
   };
 
   const navStyle = {
@@ -56,10 +87,10 @@ const NavBar = () => {
   return (
     <nav className="navBar">
       <div className="logo" onClick={navigateToHomePage}>
-        Product Hunt Project
+        Product Hunt Web
       </div>
       <ul className="navList">
-        <Link to="/" style={navStyle}>
+        <Link to="/homepage" style={navStyle}>
           <li>HomePage</li>
         </Link>
         <Link to="/products" style={navStyle}>
@@ -105,7 +136,7 @@ const NavBar = () => {
             <span>Profile</span>
           </MenuItem>
           <MenuItem>
-            <span>Choose Currency</span>
+            <span onClick={handleSignInOut}>Choose Currency</span>
             <Select
               value={currency}
               onChange={handleChangeCurrency}
@@ -113,13 +144,10 @@ const NavBar = () => {
               label="currency"
               style={{ padding: 0, borderRadius: 2 }}
             >
-              <MenuItem>$</MenuItem>
+              <MenuItem onClick={updateCurrencyf}>$</MenuItem>
               <MenuItem>€</MenuItem>
               <MenuItem>ALL</MenuItem>
             </Select>
-          </MenuItem>
-          <MenuItem onClick={handleSignInOut}>
-            <span>Sign {"In"}</span>
           </MenuItem>
         </Menu>
       </div>
