@@ -5,8 +5,10 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { updateCurrency } from "../../features/productsSlice";
-import { Axios } from "axios";
+import { selectProduct, updateCurrency } from "../../features/productsSlice";
+import { axios } from "axios";
+import { selectUser, Signin, Signout } from "../../features/userSlice";
+import { auth } from "../../firebase/firebase-config";
 
 //Antd
 import { ShoppingOutlined, UserOutlined } from "@ant-design/icons";
@@ -17,39 +19,66 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import { signOut } from "firebase/auth";
+import { toast } from "react-toastify";
 
-const BASE_URL = "https://api.exchangeratesapi.io/v1/latest";
+const CURRENCY_RATES = "https://api.apilayer.com/exchangerates_data/latest?";
 
 const NavBar = () => {
   const { cartTotalQuantity } = useSelector((state) => state.cart);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [currency, setCurrency] = useState("");
+  const [currency, setCurrency] = useState();
+  const [rate, setRate] = useState();
+  // const [firstCurrency, setFirstCurrency] = useState();
+  // const [secondCurrency, setSecondCurrency] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  const products = useSelector(selectProduct);
 
-  const updateCurrencyf = () => {
-    dispatch(
-      updateCurrency({
-        currency: currency,
-      })
-    );
-    handleClose();
-  };
+  console.log(currency);
+
+  // const updateCurrency = () => {
+  //   dispatch(
+  //     updateCurrency({
+  //       currency: currency,
+  //     })
+  //   );
+  //   handleClose();
+  // };
+
+  // async function getInitialRates(base, symbol) {
+  //   getExchangeRates(base, symbol).then((response) =>
+  //     setRate(response.data.rates[symbol])
+  //   );
+  // }
 
   // useEffect(() => {
-  //   Axios.get(BASE_URL, {
+  //   setFirstCurrency({ value: "EUR", label: "Euro" });
+  //   setSecondCurrency({ value: "USD", label: "United States Dollar" });
+  //   getInitialRates("EUR", "USD");
+  // }, [rate]);
+
+  // const getExchangeRates = (base, symbol) =>
+  //   axios.get(CURRENCY_RATES, {
+  //     params: {
+  //       base: base,
+  //       symbols: symbol,
+  //     },
   //     headers: {
-  //       Authorization: `token `,
+  //       apiKey: "m4VFmSvNiNSHiEKBSkRg92rcZYxXvS59",
   //     },
-  //   }).then(
-  //     (res) => {
-  //       const response = res.data;
-  //     },
-  //     (error) => {
-  //       const status = error.response.status;
-  //     }
-  //   );
-  // }, []);
+  //   });
+
+  // console.log(rate);
+
+  const signout = async () => {
+    dispatch(Signout(user));
+    navigate("/");
+    toast.info("Logged out successfully!", {
+      position: "top-center",
+    });
+  };
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -66,11 +95,6 @@ const NavBar = () => {
     navigate("/cart");
   };
 
-  const handleSignInOut = () => {
-    navigate("/");
-    handleClose();
-  };
-
   const navigateToProfile = () => {
     navigate("/Profile");
     handleClose();
@@ -84,6 +108,24 @@ const NavBar = () => {
     color: "rgb(223, 215, 215)",
   };
 
+  const updateDollar = () => {
+    console.log("update");
+    dispatch(updateCurrency({}));
+  };
+
+  const updateCurreny1 = (amount, currency) => {
+    switch (currency) {
+      case currency === "ALL":
+        setCurrency({});
+        break;
+      case currency === "€":
+        setCurrency({});
+        break;
+      default:
+        setCurrency("");
+    }
+  };
+
   return (
     <nav className="navBar">
       <div className="logo" onClick={navigateToHomePage}>
@@ -93,9 +135,7 @@ const NavBar = () => {
         <Link to="/homepage" style={navStyle}>
           <li>HomePage</li>
         </Link>
-        <Link to="/products" style={navStyle}>
-          <li>Products</li>
-        </Link>
+
         <Link to="/about" style={navStyle}>
           <li>About Us</li>
         </Link>
@@ -136,7 +176,7 @@ const NavBar = () => {
             <span>Profile</span>
           </MenuItem>
           <MenuItem>
-            <span onClick={handleSignInOut}>Choose Currency</span>
+            <span>Choose Currency</span>
             <Select
               value={currency}
               onChange={handleChangeCurrency}
@@ -144,11 +184,12 @@ const NavBar = () => {
               label="currency"
               style={{ padding: 0, borderRadius: 2 }}
             >
-              <MenuItem onClick={updateCurrencyf}>$</MenuItem>
+              <MenuItem onClick={updateDollar}>$</MenuItem>
               <MenuItem>€</MenuItem>
               <MenuItem>ALL</MenuItem>
             </Select>
           </MenuItem>
+          <MenuItem onClick={signout}>Sign Out</MenuItem>
         </Menu>
       </div>
     </nav>

@@ -46,7 +46,7 @@ const Cart = () => {
         <div className="cart-empty">
           <p>Your cart is currently empty</p>
           <div className="start-shopping">
-            <Link to="/">
+            <Link to="/homepage">
               <ArrowLeftOutlined />
               <span>Start Shopping</span>
             </Link>
@@ -103,7 +103,7 @@ const Cart = () => {
               <p>Taxes and shipping calculated at checkout</p>
               <button>Check out</button>
               <div className="start-shopping">
-                <Link to="/">
+                <Link to="/homepage">
                   <ArrowLeftOutlined />
                   <span>Start Shopping</span>
                 </Link>

@@ -6,17 +6,23 @@ import App from './App';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import { getTotal } from './features/cartSlice';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 store.dispatch(getTotal())
 
+let persistor = persistStore(store);
+
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

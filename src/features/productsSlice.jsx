@@ -37,10 +37,12 @@ const productSlice = createSlice({
       }
     },
     updateCurrency: (state, action) => {
-      const index = state.productLists.findIndex(
-        (prd) => prd.id === action.payload.id
-      );
-
+      const index = state.productLists.findIndex((prd) => {
+        if (prd.id === action.payload) {
+          return { ...prd, currency: prd.currency, price: prd.price * 10 };
+        }
+        return prd;
+      });
       state.productLists[index].currency = action.payload.currency;
     },
   },

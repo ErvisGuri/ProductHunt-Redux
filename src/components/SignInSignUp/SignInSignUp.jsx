@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { Signin, Signout } from "../../features/userSlice";
+import { Signin } from "../../features/userSlice";
 import "./SignInSignUp.css";
 import SignIn from "../SignIn/SignIn";
 import SignUp from "../SignUp/SignUp";
@@ -32,10 +32,8 @@ const SignInSignUp = () => {
 
   const handleChangeSignUp = () => {
     setIsVisible(true);
-    navigate("/signOut");
   };
   const handleChangeSignIn = () => {
-    navigate("/signIn");
     setIsVisible(false);
   };
 
@@ -54,9 +52,12 @@ const SignInSignUp = () => {
         registerPassword
       );
       console.log(user);
+      handleChangeSignIn();
+      toast.success(`LogIn done successfully!`, {
+        position: "bottom-left",
+      });
     } catch (error) {
-      console.log(error.message);
-      toast.error(error.message, {
+      toast.error(`${error.message}`, {
         position: "top-center",
       });
     }
@@ -64,11 +65,12 @@ const SignInSignUp = () => {
 
   const signin = async () => {
     try {
-      dispatch(
-        signin(
-          await signInWithEmailAndPassword(auth, signinEmail, signinPassword)
-        )
+      const user = await signInWithEmailAndPassword(
+        auth,
+        signinEmail,
+        signinPassword
       );
+      dispatch(Signin(user));
       console.log(user);
     } catch (error) {
       console.log(error.message);
@@ -78,11 +80,6 @@ const SignInSignUp = () => {
     }
     navigate("/homepage");
     clearSigninInput();
-  };
-
-  const signout = async () => {
-    dispatch(Signout(await signOut(auth)));
-    navigate("/");
   };
 
   const clearRegisterInput = () => {

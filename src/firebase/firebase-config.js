@@ -25,6 +25,7 @@ export const singInWithGoogle = () => {
     const profilePic = result.user.photoURL
 
 
+
     localStorage.setItem("name", name)
     localStorage.setItem("email", email)
     localStorage.setItem("profilePic", profilePic)

@@ -46,7 +46,7 @@ const ProductStore = [
     title: "Beelink GTR7 Mini PC Window 11 Pro, AMD Ryzen 7 3750H",
     desc: "Excellent CPU and Heat Dissipation Performance Equipped with AMD Quad-Core Ryzen 7 3750H (up to 4GHz), you can enjoy smooth office, video and gaming experience. 3 copper tubes and 2 fans design, let it possesses good heat dissipation effect and you can hard to hear any noise when it is working.",
     price: 20,
-    currency: "ALL",
+    currency: "$",
     id: Math.floor(Math.random() * 100),
   },
 ];

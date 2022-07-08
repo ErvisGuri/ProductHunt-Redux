@@ -25,7 +25,6 @@ function App() {
           <ToastContainer />
           <NavBar />
           <Routes>
-            <Route exact path='/' element={<SignInSignUp />} />
             <Route exact path='/homepage' element={<HomePage />} />
             <Route path='/products' element={<ProductReview />} />
             <Route path='/about' element={<AboutUs />} />
