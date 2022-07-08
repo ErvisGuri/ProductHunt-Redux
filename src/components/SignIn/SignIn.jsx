@@ -5,11 +5,11 @@ import { Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
 const SignIn = ({
-  handleChangeEmail,
-  handleChangePassword,
-  loginEmail,
-  loginPassword,
+  signinEmail,
+  signinPassword,
   signin,
+  handleChangeEmailSignIn,
+  handleChangePasswordSignIn,
 }) => {
   return (
     <div className="SignUp_container">
@@ -20,14 +20,14 @@ const SignIn = ({
       <Input
         required={true}
         type="email"
-        defaultValue={loginEmail}
-        onChange={handleChangeEmail}
+        defaultValue={signinEmail}
+        onChange={handleChangeEmailSignIn}
       />
       <h3 className="title">Password</h3>
       <Input.Password
         required={true}
-        value={loginPassword}
-        onChange={handleChangePassword}
+        value={signinPassword}
+        onChange={handleChangePasswordSignIn}
         placeholder="password"
         iconRender={(visible) =>
           visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
