@@ -39,7 +39,7 @@ const Product = ({ item }) => {
           </div>
           <div className="productDsc">{desc}</div>
           <div className="price-product">
-            <Button onClick={() => handleAddToCart(item)}>
+            <Button className="btnCard" onClick={() => handleAddToCart(item)}>
               Add to Card
               <ShoppingCartOutlined style={{ cursor: "pointer" }} />
             </Button>

@@ -37,13 +37,26 @@ const productSlice = createSlice({
       }
     },
     updateCurrency: (state, action) => {
-      const index = state.productLists.findIndex((prd) => {
-        if (prd.id === action.payload) {
-          return { ...prd, currency: prd.currency, price: prd.price * 10 };
-        }
-        return prd;
-      });
-      state.productLists[index].currency = action.payload.currency;
+      const currencyChange = action.payload;
+      if (currencyChange === "€") {
+        const tempList = [...state.productLists];
+        tempList.forEach(function (item, index) {
+          tempList[index].price = Number.parseFloat(
+            tempList[index].price / 0.99
+          ).toFixed(1);
+          tempList[index].currency = currencyChange;
+        });
+      } else if (currencyChange === "ALL") {
+        const tempList = [...state.productLists];
+        tempList.forEach(function (item, index) {
+          tempList[index].price = Number.parseFloat(
+            tempList[index].price * 117.33
+          ).toFixed(0);
+          tempList[index].currency = currencyChange;
+        });
+      } else {
+        state.productLists = ProductStore;
+      }
     },
   },
 });

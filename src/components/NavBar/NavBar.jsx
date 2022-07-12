@@ -6,9 +6,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { selectProduct, updateCurrency } from "../../features/productsSlice";
-import { axios } from "axios";
-import { selectUser, Signin, Signout } from "../../features/userSlice";
-import { auth } from "../../firebase/firebase-config";
+import { selectUser, Signout } from "../../features/userSlice";
 
 //Antd
 import { ShoppingOutlined, UserOutlined } from "@ant-design/icons";
@@ -19,7 +17,6 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { signOut } from "firebase/auth";
 import { toast } from "react-toastify";
 
 const CURRENCY_RATES = "https://api.apilayer.com/exchangerates_data/latest?";
@@ -27,50 +24,11 @@ const CURRENCY_RATES = "https://api.apilayer.com/exchangerates_data/latest?";
 const NavBar = () => {
   const { cartTotalQuantity } = useSelector((state) => state.cart);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [currency, setCurrency] = useState();
-  const [rate, setRate] = useState();
-  // const [firstCurrency, setFirstCurrency] = useState();
-  // const [secondCurrency, setSecondCurrency] = useState();
+  const [currencyChange, setCurrencyChange] = useState("NONE");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const products = useSelector(selectProduct);
-
-  console.log(currency);
-
-  // const updateCurrency = () => {
-  //   dispatch(
-  //     updateCurrency({
-  //       currency: currency,
-  //     })
-  //   );
-  //   handleClose();
-  // };
-
-  // async function getInitialRates(base, symbol) {
-  //   getExchangeRates(base, symbol).then((response) =>
-  //     setRate(response.data.rates[symbol])
-  //   );
-  // }
-
-  // useEffect(() => {
-  //   setFirstCurrency({ value: "EUR", label: "Euro" });
-  //   setSecondCurrency({ value: "USD", label: "United States Dollar" });
-  //   getInitialRates("EUR", "USD");
-  // }, [rate]);
-
-  // const getExchangeRates = (base, symbol) =>
-  //   axios.get(CURRENCY_RATES, {
-  //     params: {
-  //       base: base,
-  //       symbols: symbol,
-  //     },
-  //     headers: {
-  //       apiKey: "m4VFmSvNiNSHiEKBSkRg92rcZYxXvS59",
-  //     },
-  //   });
-
-  // console.log(rate);
 
   const signout = async () => {
     dispatch(Signout(user));
@@ -108,21 +66,23 @@ const NavBar = () => {
     color: "rgb(223, 215, 215)",
   };
 
-  const updateDollar = () => {
-    console.log("update");
-    dispatch(updateCurrency({}));
+  const updateCurrenyEur = () => {
+    if (currencyChange === "NONE") {
+      dispatch(updateCurrency("€"));
+      setCurrencyChange("€");
+    } else {
+      dispatch(updateCurrency("NONE"));
+      setCurrencyChange("NONE");
+    }
   };
 
-  const updateCurreny1 = (amount, currency) => {
-    switch (currency) {
-      case currency === "ALL":
-        setCurrency({});
-        break;
-      case currency === "€":
-        setCurrency({});
-        break;
-      default:
-        setCurrency("");
+  const updateCurrenyALL = () => {
+    if (currencyChange === "NONE") {
+      dispatch(updateCurrency("ALL"));
+      setCurrencyChange("ALL");
+    } else {
+      dispatch(updateCurrency("NONE"));
+      setCurrencyChange("NONE");
     }
   };
 
@@ -178,15 +138,13 @@ const NavBar = () => {
           <MenuItem>
             <span>Choose Currency</span>
             <Select
-              value={currency}
               onChange={handleChangeCurrency}
               autoWidth
               label="currency"
               style={{ padding: 0, borderRadius: 2 }}
             >
-              <MenuItem onClick={updateDollar}>$</MenuItem>
-              <MenuItem>€</MenuItem>
-              <MenuItem>ALL</MenuItem>
+              <MenuItem onClick={updateCurrenyEur}>€</MenuItem>
+              <MenuItem onClick={updateCurrenyALL}>ALL</MenuItem>
             </Select>
           </MenuItem>
           <MenuItem onClick={signout}>Sign Out</MenuItem>

@@ -23,10 +23,20 @@
     align-items: flex-end;
 }
 
+*, *::before, *::after {
+    box-sizing: content-box
+}
+
+.btnCard {
+   height: 25px;
+   position: sticky;
+   margin-right: 15px;
+}
+
 .productCard {
     display: flex;
     justify-content: flex-start;
-    margin-right: 256px;
+    margin-right: 56px;
 }
 
 .img_title{
@@ -51,10 +61,12 @@
 .productDsc{
    font-size: 15px;
    color: #4a4a4a;
+   flex-wrap: wrap;
 }
 
 .price-product{
-    display: flex;
+    display: grid;
     padding: 10px;
-    gap: 100px
+    grid-column-gap: 17%;
+    grid-auto-flow: column;
 }
